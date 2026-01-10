@@ -1,10 +1,11 @@
 [green_agent]
 agentbeats_id = "019b9a0b-083d-7c33-8ec9-aa83fba1c70e"
+# image = "ghcr.io/yshao/medapp:latest-green-agent"  # For local testing
 env = { GROQ_API_KEY = "${GROQ_API_KEY}", GOOGLE_API_KEY = "${GOOGLE_API_KEY}", DATA_PATH = "/app/data/medagentbench/test_data_v2.json", LOG_LEVEL = "INFO" }
 
 [[participants]]
 name = "medical_agent"
-image = "ghcr.io/yshao/medapp:latest"
+agentbeats_id = "019ba9ee-6dfb-7b22-82ff-89d42343719e"
 env = {}
 
 [config]
