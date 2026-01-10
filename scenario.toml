@@ -1,16 +1,13 @@
 [green_agent]
-agentbeats_id = ""
-env = { API_KEY = "${GITHUB_SECRET_NAME}", LOG_LEVEL = "INFO" }
+agentbeats_id = "019b9a0b-083d-7c33-8ec9-aa83fba1c70e"
+env = { GROQ_API_KEY = "${GROQ_API_KEY}", GOOGLE_API_KEY = "${GOOGLE_API_KEY}", DATA_PATH = "/app/data/medagentbench/test_data_v2.json", LOG_LEVEL = "INFO" }
 
 [[participants]]
-agentbeats_id = ""
-name = "role_1_name"
-env = {}
-
-[[participants]]
-agentbeats_id = ""
-name = "role_2_name"
+name = "medical_agent"
+image = "ghcr.io/yshao/medapp:latest"
 env = {}
 
 [config]
-# Add your assessment config here
+task_id = "diabetes_001"
+medical_category = "diabetes"
+dry_run = true
