@@ -1,8 +1,10 @@
 """Generate Docker Compose configuration from scenario.toml"""
 
 import argparse
+import json
 import os
 import re
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -46,6 +48,45 @@ def fetch_agent_info(agentbeats_id: str) -> dict:
     except requests.exceptions.RequestException as e:
         print(f"Error: Request failed for agent {agentbeats_id}: {e}")
         sys.exit(1)
+
+
+def get_image_port(image_name: str) -> int:
+    """Detect the exposed port from a Docker image using docker inspect."""
+    try:
+        result = subprocess.run(
+            ["docker", "inspect", "--format={{json .Config.ExposedPorts}}", image_name],
+            capture_output=True,
+            text=True,
+            timeout=30,
+            check=False
+        )
+        if result.returncode != 0:
+            print(f"Warning: Could not inspect image {image_name}, using default port {DEFAULT_PORT}")
+            return DEFAULT_PORT
+
+        exposed_ports = json.loads(result.stdout)
+        if not exposed_ports:
+            print(f"Warning: No exposed ports found for {image_name}, using default port {DEFAULT_PORT}")
+            return DEFAULT_PORT
+
+        # Get the first TCP port (e.g., "9008/tcp" -> 9008)
+        for port_str in exposed_ports.keys():
+            if "/tcp" in port_str:
+                port = int(port_str.split("/")[0])
+                print(f"Detected port {port} for image {image_name}")
+                return port
+
+        print(f"Warning: No TCP port found for {image_name}, using default port {DEFAULT_PORT}")
+        return DEFAULT_PORT
+    except subprocess.TimeoutExpired:
+        print(f"Warning: Docker inspect timed out for {image_name}, using default port {DEFAULT_PORT}")
+        return DEFAULT_PORT
+    except json.JSONDecodeError:
+        print(f"Warning: Could not parse docker inspect output for {image_name}, using default port {DEFAULT_PORT}")
+        return DEFAULT_PORT
+    except Exception as e:
+        print(f"Warning: Error inspecting image {image_name}: {e}, using default port {DEFAULT_PORT}")
+        return DEFAULT_PORT
 
 
 COMPOSE_PATH = "docker-compose.yml"
@@ -143,6 +184,8 @@ def parse_scenario(scenario_path: Path) -> dict[str, Any]:
 
     green = data.get("green_agent", {})
     resolve_image(green, "green_agent")
+    # Detect port for green agent
+    green["port"] = get_image_port(green["image"])
 
     participants = data.get("participants", [])
 
@@ -157,6 +200,8 @@ def parse_scenario(scenario_path: Path) -> dict[str, Any]:
     for participant in participants:
         name = participant.get("name", "unknown")
         resolve_image(participant, f"participant '{name}'")
+        # Detect port for participant
+        participant["port"] = get_image_port(participant["image"])
 
     return data
 
@@ -185,7 +230,7 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
         PARTICIPANT_TEMPLATE.format(
             name=p["name"],
             image=p["image"],
-            port=DEFAULT_PORT,
+            port=p.get("port", DEFAULT_PORT),
             env=format_env_vars(p.get("env", {}))
         )
         for p in participants
@@ -195,7 +240,7 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
 
     return COMPOSE_TEMPLATE.format(
         green_image=green["image"],
-        green_port=DEFAULT_PORT,
+        green_port=green.get("port", DEFAULT_PORT),
         green_env=format_env_vars(green.get("env", {})),
         green_depends=format_depends_on(participant_names),
         participant_services=participant_services,
@@ -209,10 +254,11 @@ def generate_a2a_scenario(scenario: dict[str, Any]) -> str:
 
     participant_lines = []
     for p in participants:
+        port = p.get("port", DEFAULT_PORT)
         lines = [
             f"[[participants]]",
             f"role = \"{p['name']}\"",
-            f"endpoint = \"http://{p['name']}:{DEFAULT_PORT}\"",
+            f"endpoint = \"http://{p['name']}:{port}\"",
         ]
         if "agentbeats_id" in p:
             lines.append(f"agentbeats_id = \"{p['agentbeats_id']}\"")
@@ -222,7 +268,7 @@ def generate_a2a_scenario(scenario: dict[str, Any]) -> str:
     config_lines = [tomli_w.dumps({"config": config_section})]
 
     return A2A_SCENARIO_TEMPLATE.format(
-        green_port=DEFAULT_PORT,
+        green_port=green.get("port", DEFAULT_PORT),
         participants="\n".join(participant_lines),
         config="\n".join(config_lines)
     )
