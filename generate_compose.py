@@ -61,8 +61,29 @@ def get_image_port(image_name: str) -> int:
             check=False
         )
         if result.returncode != 0:
-            print(f"Warning: Could not inspect image {image_name}, using default port {DEFAULT_PORT}")
-            return DEFAULT_PORT
+            # Image not available locally, try to pull it
+            print(f"Image {image_name} not found locally, pulling...")
+            pull_result = subprocess.run(
+                ["docker", "pull", image_name],
+                capture_output=True,
+                text=True,
+                timeout=300,
+                check=False
+            )
+            if pull_result.returncode != 0:
+                print(f"Warning: Failed to pull image {image_name}, using default port {DEFAULT_PORT}")
+                return DEFAULT_PORT
+            # Retry inspect after pulling
+            result = subprocess.run(
+                ["docker", "inspect", "--format={{json .Config.ExposedPorts}}", image_name],
+                capture_output=True,
+                text=True,
+                timeout=30,
+                check=False
+            )
+            if result.returncode != 0:
+                print(f"Warning: Could not inspect image {image_name} after pulling, using default port {DEFAULT_PORT}")
+                return DEFAULT_PORT
 
         exposed_ports = json.loads(result.stdout)
         if not exposed_ports:
