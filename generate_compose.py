@@ -146,6 +146,7 @@ services:
       - ./a2a-scenario.toml:/app/scenario.toml
       - ./output:/app/output
     command: ["scenario.toml", "output/results.json"]
+    entrypoint: ["sh", "-c", "sleep 10 && python -m agentbeats.client_cli scenario.toml output/results.json"]
     depends_on:
       green-agent:
         condition: service_started
