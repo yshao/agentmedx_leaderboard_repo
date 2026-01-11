@@ -15,3 +15,4 @@ dry_run = true
 # Port auto-detection fix
 # Auto-pull images for port detection
 # Fix command args, use default ENTRYPOINT
+# Fix depends_on timing issue
