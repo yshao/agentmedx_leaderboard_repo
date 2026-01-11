@@ -17,3 +17,4 @@ dry_run = true
 # Fix command args, use default ENTRYPOINT
 # Fix depends_on timing issue
 # Add startup delay to agentbeats-client
+# Increase start_period to 60s
