@@ -132,7 +132,7 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
-      start_period: 30s
+      start_period: 60s
     depends_on:{green_depends}
     networks:
       - agent-network
@@ -146,12 +146,11 @@ services:
       - ./a2a-scenario.toml:/app/scenario.toml
       - ./output:/app/output
     command: ["scenario.toml", "output/results.json"]
-    entrypoint: ["sh", "-c", "sleep 10 && python -m agentbeats.client_cli scenario.toml output/results.json"]
     depends_on:
       green-agent:
-        condition: service_started
+        condition: service_healthy
       medical_agent:
-        condition: service_started
+        condition: service_healthy
     networks:
       - agent-network
 
@@ -172,7 +171,7 @@ PARTICIPANT_TEMPLATE = """  {name}:
       interval: 5s
       timeout: 3s
       retries: 10
-      start_period: 30s
+      start_period: 60s
     networks:
       - agent-network
 """
