@@ -13,3 +13,4 @@ task_id = "diabetes_001"
 medical_category = "diabetes"
 dry_run = true
 # Port auto-detection fix
+# Auto-pull images for port detection
