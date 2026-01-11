@@ -9,7 +9,7 @@ agentbeats_id = "019ba9ee-6dfb-7b22-82ff-89d42343719e"
 env = {}
 
 [config]
-task_id = "diabetes_001"
+task_id = "docker-compose.yml regenerated with 60s start_period
 medical_category = "diabetes"
 dry_run = true
 # Port auto-detection fix
