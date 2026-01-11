@@ -16,3 +16,4 @@ dry_run = true
 # Auto-pull images for port detection
 # Fix command args, use default ENTRYPOINT
 # Fix depends_on timing issue
+# Add startup delay to agentbeats-client
