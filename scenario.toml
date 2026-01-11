@@ -9,12 +9,6 @@ agentbeats_id = "019ba9ee-6dfb-7b22-82ff-89d42343719e"
 env = {}
 
 [config]
-task_id = "docker-compose.yml regenerated with 60s start_period
+task_id = "diabetes_001"
 medical_category = "diabetes"
 dry_run = true
-# Port auto-detection fix
-# Auto-pull images for port detection
-# Fix command args, use default ENTRYPOINT
-# Fix depends_on timing issue
-# Add startup delay to agentbeats-client
-# Increase start_period to 60s
