@@ -12,7 +12,7 @@ env = {}
 task_id = "diabetes_001"
 medical_category = "diabetes"
 dry_run = true
-# Testing with card_url fix - both agents use Docker container names for networking
+# Testing with medapp package visibility changed to public
 # green-agent: http://green-agent:9008/
 # medical_agent: http://medical_agent:9010/
 # Port auto-detection fix
