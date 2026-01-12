@@ -12,3 +12,5 @@ env = {}
 task_id = "diabetes_001"
 medical_category = "diabetes"
 dry_run = true
+
+# New images pushed - assuming SSE connection issue is fixed
