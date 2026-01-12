@@ -164,7 +164,7 @@ PARTICIPANT_TEMPLATE = """  {name}:
     platform: linux/amd64
     container_name: {name}
     environment:
-      - SPECIALTY="diabetes"
+      - SPECIALTY=diabetes
     ports:
       - "{port}:{port}"
     command: ["sh", "-c", "python -m scenarios.medbench.medical_agent --host 0.0.0.0 --port {port} --specialty $SPECIALTY --card-url http://{name}:{port}/"]
