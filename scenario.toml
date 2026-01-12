@@ -22,4 +22,4 @@ dry_run = false
 # Add startup delay to agentbeats-client
 # Increase start_period to 60s
 # Testing with SPECIALTY environment fix
-# Trigger: CORS-FIX-APPLIED
+# Trigger: MIDDLEWARE-ORDER-FIX
