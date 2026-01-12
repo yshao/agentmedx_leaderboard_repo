@@ -163,14 +163,15 @@ PARTICIPANT_TEMPLATE = """  {name}:
     image: {image}
     platform: linux/amd64
     container_name: {name}
-    environment:{env}
+    environment:
+      - SPECIALTY="diabetes"
     ports:
       - "{port}:{port}"
     command: ["sh", "-c", "python -m scenarios.medbench.medical_agent --host 0.0.0.0 --port {port} --specialty $SPECIALTY --card-url http://{name}:{port}/"]
     healthcheck:
-      test: ["CMD", "curl", "-c", "curl -f http://localhost:{port}/health"]
+      test: ["CMD", "-c", "curl -f http://localhost:{port}/health"]
       interval: 5s
-      timeout: 3s
+      timeout:  10
       retries: 10
       start_period: 60s
     networks:
