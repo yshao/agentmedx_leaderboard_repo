@@ -21,3 +21,4 @@ dry_run = true
 # Fix depends_on timing issue
 # Add startup delay to agentbeats-client
 # Increase start_period to 60s
+# Testing with SPECIALTY environment fix
