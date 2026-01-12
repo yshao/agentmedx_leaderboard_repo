@@ -171,7 +171,7 @@ PARTICIPANT_TEMPLATE = """  {name}:
     healthcheck:
       test: ["CMD", "-c", "curl -f http://localhost:{port}/health"]
       interval: 5s
-      timeout:  10
+      timeout: 10s
       retries: 10
       start_period: 60s
     networks:
