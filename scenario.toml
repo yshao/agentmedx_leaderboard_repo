@@ -12,5 +12,16 @@ env = {}
 task_id = "diabetes_001"
 medical_category = "diabetes"
 dry_run = true
-
-# New images pushed - assuming SSE connection issue is fixed
+# Testing with new green/purple agent images with SSE fix
+# Port auto-detection fix
+# Auto-pull images for port detection
+# Fix command args, use default ENTRYPOINT
+# Fix depends_on timing issue
+# Add startup delay to agentbeats-client
+# Increase start_period to 60s
+# Port auto-detection fix
+# Auto-pull images for port detection
+# Fix command args, use default ENTRYPOINT
+# Fix depends_on timing issue
+# Add startup delay to agentbeats-client
+# Increase start_period to 60s
