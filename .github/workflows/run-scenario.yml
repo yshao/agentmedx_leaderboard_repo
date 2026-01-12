@@ -68,6 +68,39 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_TOKEN }}
 
+      - name: Debug A2A endpoints
+        run: |
+          echo "=== Starting containers for debug ==="
+          docker compose up -d
+
+          echo "Waiting for services to be healthy..."
+          sleep 30
+
+          echo ""
+          echo "=== Test 1: Agent Card Endpoint ==="
+          curl -v http://localhost:9008/.well-known/agent-card.json
+
+          echo ""
+          echo "=== Test 2: OPTIONS Preflight (CORS) ==="
+          curl -v -X OPTIONS http://localhost:9008/ -H "Origin: http://test" -H "Access-Control-Request-Method: POST"
+
+          echo ""
+          echo "=== Test 3: POST to Root (A2A Streaming) ==="
+          curl -v -X POST http://localhost:9008/ -H "Content-Type: application/json" -d '{"message": "test"}' --max-time 5
+
+          echo ""
+          echo "=== Test 4: Check green-agent logs for A2A setup ==="
+          docker logs green-agent 2>&1 | grep -i "a2a\|streaming\|sse\|uvicorn" | tail -20 || echo "No A2A logs found"
+
+          echo ""
+          echo "=== Test 5: Check from agentbeats-client container ==="
+          docker exec agentbeats-client curl -v http://green-agent:9008/.well-known/agent-card.json
+          docker exec agentbeats-client curl -v -X OPTIONS http://green-agent:9008/ -H "Origin: http://test"
+
+          echo ""
+          echo "=== Stopping debug containers ==="
+          docker compose down
+
       - name: Run assessment
         run: docker compose up --timestamps --no-color --exit-code-from agentbeats-client --abort-on-container-exit
 
