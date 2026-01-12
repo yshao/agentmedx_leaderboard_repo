@@ -22,4 +22,4 @@ dry_run = true
 # Add startup delay to agentbeats-client
 # Increase start_period to 60s
 # Testing with SPECIALTY environment fix
-# Trigger: 20250111-222000 
+# Trigger: 20250111-222500 
