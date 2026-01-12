@@ -167,7 +167,7 @@ PARTICIPANT_TEMPLATE = """  {name}:
       - SPECIALTY=diabetes
     ports:
       - "{port}:{port}"
-    command: ["sh", "-c", "python -m scenarios.medbench.medical_agent --host 0.0.0.0 --port {port} --specialty $SPECIALTY --card-url http://{name}:{port}/"]
+    command: ["sh", "-c", "python -m scenarios.medbench.medical_agent --host 0.0.0.0 --port {port} --specialty $$SPECIALTY --card-url http://{name}:{port}/"]
     healthcheck:
       test: ["CMD", "-c", "curl -f http://localhost:{port}/health"]
       interval: 5s
