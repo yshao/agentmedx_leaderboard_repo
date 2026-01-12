@@ -166,6 +166,7 @@ PARTICIPANT_TEMPLATE = """  {name}:
     environment:{env}
     ports:
       - "{port}:{port}"
+    command: ["--card-url", "http://{name}:{port}/"]
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:{port}/health"]
       interval: 5s
