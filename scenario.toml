@@ -12,13 +12,8 @@ env = {}
 task_id = "diabetes_001"
 medical_category = "diabetes"
 dry_run = true
-# Testing with new green/purple agent images with SSE fix
-# Port auto-detection fix
-# Auto-pull images for port detection
-# Fix command args, use default ENTRYPOINT
-# Fix depends_on timing issue
-# Add startup delay to agentbeats-client
-# Increase start_period to 60s
+# Fixed card_url: medical_agent now uses http://medical_agent:9010/ (Docker container name)
+# This fixes SSE connection issue - agentbeats-client can reach medical_agent
 # Port auto-detection fix
 # Auto-pull images for port detection
 # Fix command args, use default ENTRYPOINT
