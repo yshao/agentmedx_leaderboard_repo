@@ -295,7 +295,7 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
         green_env=format_env_vars(green.get("env", {})),
         green_depends=format_depends_on(participant_names),
         participant_services=participant_services,
-        command=command,
+        command_template=command,
         client_depends=format_depends_on(all_services)
     )
 
