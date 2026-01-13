@@ -280,7 +280,7 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
             "--port", str(green.get("port", DEFAULT_PORT)),
             "--evaluate",
             "--data-path", "/app/data/medagentbench/test_data_v2.json",
-            "--medical-agent-endpoint", f"http://{participants[0]['name']}:{str(participants[0].get('port', DEFAULT_PORT)}",
+            "--medical-agent-endpoint", f"http://{participants[0]['name']}:{str(participants[0].get('port', DEFAULT_PORT))}",
             "--dry-run" if dry_run else ""
         ]
     else:
