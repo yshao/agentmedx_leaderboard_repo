@@ -94,8 +94,8 @@ jobs:
 
           echo ""
           echo "=== Test 5: Check from agentbeats-client container ==="
-          docker exec agentbeats-client curl -v http://green-agent:9008/.well-known/agent-card.json
-          docker exec agentbeats-client curl -v -X OPTIONS http://green-agent:9008/ -H "Origin: http://test"
+          docker exec agentbeats-client curl -v http://green-agent:9008/.well-known/agent-card.json 2>/dev/null || echo "agentbeats-client container not found (orchestrator mode)"
+          docker exec agentbeats-client curl -v -X OPTIONS http://green-agent:9008/ -H "Origin: http://test" 2>/dev/null || echo "agentbeats-client container not found (orchestrator mode)"
 
           echo ""
           echo "=== Stopping debug containers ==="
