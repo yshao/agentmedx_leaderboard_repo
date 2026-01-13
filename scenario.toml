@@ -11,4 +11,4 @@ env = {}
 [config]
 task_id = "diabetes_001"
 medical_category = "diabetes"
-dry_run = false
+dry_run = true
