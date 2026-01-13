@@ -12,4 +12,3 @@ env = {}
 task_id = "diabetes_001"
 medical_category = "diabetes"
 dry_run = false
-{{# Trigger: ORCHESTRATOR-MODE-TEST-2
