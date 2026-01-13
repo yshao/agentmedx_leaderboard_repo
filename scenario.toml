@@ -1,6 +1,5 @@
 [green_agent]
 agentbeats_id = "019b9a0b-083d-7c33-8ec9-aa83fba1c70e"
-# image = "ghcr.io/yshao/medapp:latest-green-agent"  # For local testing
 env = { GROQ_API_KEY = "${GROQ_API_KEY}", GOOGLE_API_KEY = "${GOOGLE_API_KEY}", DATA_PATH = "/app/data/medagentbench/test_data_v2.json", LOG_LEVEL = "INFO" }
 
 [[participants]]
@@ -12,14 +11,4 @@ env = {}
 task_id = "diabetes_001"
 medical_category = "diabetes"
 dry_run = false
-# Testing with medapp package visibility changed to public
-# green-agent: http://green-agent:9008/
-# medical_agent: http://medical_agent:9010/
-# Port auto-detection fix
-# Auto-pull images for port detection
-# Fix command args, use default ENTRYPOINT
-# Fix depends_on timing issue
-# Add startup delay to agentbeats-client
-# Increase start_period to 60s
-# Testing with SPECIALTY environment fix
-{# Trigger: ELIMINATED-AGENTBEATS-CLIENT
+# Trigger: ELIMINATED-AGENTBEATS-CLIENT
