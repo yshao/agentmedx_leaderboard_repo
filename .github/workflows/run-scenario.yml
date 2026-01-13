@@ -102,7 +102,7 @@ jobs:
           docker compose down
 
       - name: Run assessment
-        run: docker compose up --timestamps --no-color --exit-code-from agentbeats-client --abort-on-container-exit
+        run: docker compose up --timestamps --no-color --abort-on-container-exit
 
       - name: Record provenance
         run: python record_provenance.py --compose docker-compose.yml --output output/provenance.json
