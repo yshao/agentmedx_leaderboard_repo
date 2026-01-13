@@ -121,7 +121,7 @@ A2A_SCENARIO_PATH = "a2a-scenario.toml"
 ENV_PATH = ".env.example"
 
 DEFAULT_PORT = 9009
-DEFAULT_ENV_VARS = {"PYTHONUNBUFFERED: "1"}
+DEFAULT_ENV_VARS = {"PYTHONUNBUFFERED": "1"}
 
 # Command template for orchestrator mode
 COMMAND_TEMPLATE = "{command}"
