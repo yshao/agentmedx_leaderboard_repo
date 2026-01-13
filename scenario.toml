@@ -1,5 +1,6 @@
 [green_agent]
 agentbeats_id = "019b9a0b-083d-7c33-8ec9-aa83fba1c70e"
+orchestrator_mode = true
 env = { GROQ_API_KEY = "${GROQ_API_KEY}", GOOGLE_API_KEY = "${GOOGLE_API_KEY}", DATA_PATH = "/app/data/medagentbench/test_data_v2.json", LOG_LEVEL = "INFO" }
 
 [[participants]]

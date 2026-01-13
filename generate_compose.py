@@ -29,6 +29,12 @@ except ImportError:
     sys.exit(1)
 
 
+try:
+    from a2a.client.client import A2AClient
+    from a2a.client.request import A2AClientRequest
+except ImportError:
+    print("Warning: a2a-sdk not installed. Orchestrator mode will not work. Install with: pip install a2a-client")
+
 AGENTBEATS_API_URL = "https://agentbeats.dev/api/agents"
 
 
@@ -115,7 +121,17 @@ A2A_SCENARIO_PATH = "a2a-scenario.toml"
 ENV_PATH = ".env.example"
 
 DEFAULT_PORT = 9009
-DEFAULT_ENV_VARS = {"PYTHONUNBUFFERED": "1"}
+DEFAULT_ENV_VARS = {"PYTHONUNBUFFERED: "1"}
+
+# Command template for orchestrator mode
+COMMAND_TEMPLATE = "{command}"
+
+# This should have been added by the sed command earlier:
+# from a2a.client.client import A2AClient
+# from a2a_client.request import A2AClientRequest
+# except ImportError:
+#     print("Warning: a2a-sdk not installed. Orchestrator mode will not work. Install with: pip install a2a-client")
+
 
 COMPOSE_TEMPLATE = """# Auto-generated from scenario.toml
 
@@ -134,6 +150,7 @@ services:
       retries: 10
       start_period: 60s
     depends_on:{green_depends}
+    command: {command_template}  # Use command template
     networks:
       - agent-network
 
@@ -238,6 +255,10 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
     green = scenario["green_agent"]
     participants = scenario.get("participants", [])
 
+    # Check for orchestrator_mode
+    orchestrator_mode = green.get("orchestrator_mode", False)
+    dry_run = scenario.get("config", {}).get("dry_run", False)
+
     participant_names = [p["name"] for p in participants]
 
     participant_services = "\n".join([
@@ -250,6 +271,22 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
         for p in participants
     ])
 
+    # Generate command based on mode
+    if orchestrator_mode:
+        # Orchestrator mode - run evaluation and exit
+        command = [
+            "python", "-m", "scenarios.medbench.medbench_judge",
+            "--host", "0.0.0.0",
+            "--port", str(green.get("port", DEFAULT_PORT)),
+            "--evaluate",
+            "--data-path", "/app/data/medagentbench/test_data_v2.json",
+            "--medical-agent-endpoint", f"http://{participants[0]['name']}:{str(participants[0].get('port', DEFAULT_PORT)}",
+            "--dry-run" if dry_run else ""
+        ]
+    else:
+        # A2A server mode (original)
+        command = ["python", "-m", "scenarios.medbench.judge", "--host", "0.0.0.0", "--port", str(green.get("port", DEFAULT_PORT))]
+
     all_services = ["green-agent"] + participant_names
 
     return COMPOSE_TEMPLATE.format(
@@ -258,6 +295,7 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
         green_env=format_env_vars(green.get("env", {})),
         green_depends=format_depends_on(participant_names),
         participant_services=participant_services,
+        command=command,
         client_depends=format_depends_on(all_services)
     )
 
