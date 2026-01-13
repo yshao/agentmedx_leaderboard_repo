@@ -138,21 +138,6 @@ services:
       - agent-network
 
 {participant_services}
-  agentbeats-client:
-    image: ghcr.io/agentbeats/agentbeats-client:v1.0.0
-    platform: linux/amd64
-    container_name: agentbeats-client
-    volumes:
-      - ./a2a-scenario.toml:/app/scenario.toml
-      - ./output:/app/output
-    command: ["scenario.toml", "output/results.json"]
-    depends_on:
-      green-agent:
-        condition: service_healthy
-      medical_agent:
-        condition: service_healthy
-    networks:
-      - agent-network
 
 networks:
   agent-network:
