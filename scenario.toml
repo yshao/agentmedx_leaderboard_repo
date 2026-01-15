@@ -1,14 +1,14 @@
 [green_agent]
-agentbeats_id = "019b9a0b-083d-7c33-8ec9-aa83fba1c70e"
-orchestrator_mode = true
-env = { GROQ_API_KEY = "${GROQ_API_KEY}", GOOGLE_API_KEY = "${GOOGLE_API_KEY}", DATA_PATH = "/app/data/medagentbench/test_data_v2.json", LOG_LEVEL = "INFO" }
-# Dry run mode enabled for testing - will use mock scores
-# Fourth attempt with debug step fix
+image = "ghcr.io/yshao/medbench-judge:latest"
+orchestrator_mode = false
+env = { GROQ_API_KEY = "${GROQ_API_KEY}", GOOGLE_API_KEY = "${GOOGLE_API_KEY}", DATA_PATH = "/app/data/medagentbench/test_data_v2.json", LOG_LEVEL = "INFO", CARD_URL = "http://green-agent:9008/", HOST = "0.0.0.0", AGENT_PORT = "9008" }
+# A2A server mode - green-agent runs as A2A server with SSE support
+# Updated 2025-01-15: Use local images with --card-url SSE fix
 
 [[participants]]
 name = "medical_agent"
-agentbeats_id = "019ba9ee-6dfb-7b22-82ff-89d42343719e"
-env = {}
+image = "ghcr.io/yshao/medbench-medical:latest"
+env = { SPECIALTY = "diabetes", CARD_URL = "http://medical_agent:9010/" }
 
 [config]
 task_id = "diabetes_001"
