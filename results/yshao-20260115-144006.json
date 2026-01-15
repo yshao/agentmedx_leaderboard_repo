@@ -1,0 +1,11 @@
+{
+  "participants": {},
+  "results": [
+    {
+      "task_id": "diabetes_001",
+      "participant": "http://medical_agent:9010/",
+      "status": "completed",
+      "message": "Evaluation completed for task diabetes_001"
+    }
+  ]
+}
