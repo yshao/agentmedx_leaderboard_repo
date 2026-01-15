@@ -1,10 +1,12 @@
 [green_agent]
-agentbeats_id = "019b9a0b-083d-7c33-8ec9-aa83fba1c70e"
-env = { GROQ_API_KEY = "${GROQ_API_KEY}", GOOGLE_API_KEY = "${GOOGLE_API_KEY}", DATA_PATH = "/app/data/medagentbench/test_data_v2.json", LOG_LEVEL = "INFO" }
+image = "ghcr.io/yshao/medbench-judge:latest"
+orchestrator_mode = false
+env = { GROQ_API_KEY = "${GROQ_API_KEY}", GOOGLE_API_KEY = "${GOOGLE_API_KEY}", DATA_PATH = "/app/data/medagentbench/test_data_v2.json", LOG_LEVEL = "INFO", CARD_URL = "http://green-agent:9008/", HOST = "0.0.0.0", AGENT_PORT = "9008" }
 
 [[participants]]
 name = "medical_agent"
-agentbeats_id = "019ba9ee-6dfb-7b22-82ff-89d42343719e"
+image = "ghcr.io/yshao/medbench-medical:latest"
+env = { SPECIALTY = "diabetes", CARD_URL = "http://medical_agent:9010/" }
 
 [config]
 task_id = "diabetes_001"
