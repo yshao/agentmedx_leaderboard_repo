@@ -155,6 +155,7 @@ services:
       - agent-network
 
 {participant_services}
+{client_service}
 
 networks:
   agent-network:
@@ -176,6 +177,18 @@ PARTICIPANT_TEMPLATE = """  {name}:
       timeout: 10s
       retries: 10
       start_period: 60s
+    networks:
+      - agent-network
+"""
+
+CLIENT_TEMPLATE = """  agentbeats-client:
+    image: ghcr.io/agentbeats/agentbeats-client:v1.0.0
+    container_name: agentbeats-client
+    volumes:
+      - ./a2a-scenario.toml:/app/scenario.toml
+      - ./output:/app/output
+    command: ["scenario.toml", "output/results.json"]
+    depends_on:{client_depends}
     networks:
       - agent-network
 """
@@ -284,10 +297,17 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
             "--dry-run" if dry_run else ""
         ]
     else:
-        # A2A server mode (original)
-        command = ["python", "-m", "scenarios.medbench.judge", "--host", "0.0.0.0", "--port", str(green.get("port", DEFAULT_PORT))]
+        # A2A server mode - use medbench_judge_a2a which supports SSE via Google ADK
+        command = ["python", "-m", "scenarios.medbench.medbench_judge_a2a", "--host", "0.0.0.0", "--port", str(green.get("port", DEFAULT_PORT)), "--data-path", "/app/data/medagentbench/test_data_v2.json"]
 
     all_services = ["green-agent"] + participant_names
+
+    # Generate agentbeats-client service only in A2A server mode (not orchestrator mode)
+    client_service = ""
+    if not orchestrator_mode:
+        client_service = CLIENT_TEMPLATE.format(
+            client_depends=format_depends_on(all_services)
+        )
 
     return COMPOSE_TEMPLATE.format(
         green_image=green["image"],
@@ -295,8 +315,8 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
         green_env=format_env_vars(green.get("env", {})),
         green_depends=format_depends_on(participant_names),
         participant_services=participant_services,
-        command_template=command,
-        client_depends=format_depends_on(all_services)
+        client_service=client_service,
+        command_template=command
     )
 
 
