@@ -1,0 +1,17 @@
+{
+  "image_digests": {
+    "green-agent": "ghcr.io/yshao/medbench-judge@sha256:7bbe46d5a92cff77919a6b358673820e3b81c9f33e6dee07f8c6a3bf0d08923d",
+    "medical_agent": "ghcr.io/yshao/medbench-medical@sha256:d16012bc02ea85ab4c34b88caa0702db431adc03673791d8cf17e3a63a1c78e8",
+    "agentbeats-client": "ghcr.io/agentbeats/agentbeats-client@sha256:13dfe3ef4e583a80e7ce2fe3becd0ce3b879841368a7f4fa40b6ebbabeeb014e"
+  },
+  "timestamp": "2026-01-15T21:13:59Z",
+  "github_actions": {
+    "run_url": "https://github.com/yshao/agentmedx_leaderboard_repo/actions/runs/21046505177",
+    "run_logs_url": "https://api.github.com/repos/yshao/agentmedx_leaderboard_repo/actions/runs/21046505177/logs",
+    "ref": "refs/heads/real-eval-no-dryrun-20260115-161135",
+    "sha": "5fe32ecda3eba36cc99e6d1462315974e503509d",
+    "repository_url": "https://github.com/yshao/agentmedx_leaderboard_repo",
+    "workflow_ref": "yshao/agentmedx_leaderboard_repo/.github/workflows/run-scenario.yml@refs/heads/real-eval-no-dryrun-20260115-161135",
+    "workflow_sha": "5fe32ecda3eba36cc99e6d1462315974e503509d"
+  }
+}
