@@ -200,8 +200,14 @@ endpoint = "http://green-agent:{green_port}"
 {config}"""
 
 
-def resolve_image(agent: dict, name: str) -> None:
-    """Resolve docker image for an agent, either from 'image' field or agentbeats API."""
+def resolve_image(agent: dict, name: str, orchestrator_mode: bool = False) -> None:
+    """Resolve docker image for an agent, either from 'image' field or agentbeats API.
+
+    Args:
+        agent: Agent configuration dict with 'image' or 'agentbeats_id'
+        name: Name of the agent (for error messages)
+        orchestrator_mode: If True, requires agentbeats_id for GitHub Actions
+    """
     has_image = "image" in agent
     has_id = "agentbeats_id" in agent
 
@@ -209,8 +215,9 @@ def resolve_image(agent: dict, name: str) -> None:
         print(f"Error: {name} has both 'image' and 'agentbeats_id' - use one or the other")
         sys.exit(1)
     elif has_image:
-        if os.environ.get("GITHUB_ACTIONS"):
-            print(f"Error: {name} requires 'agentbeats_id' for GitHub Actions (use 'image' for local testing only)")
+        # Only require agentbeats_id for GitHub Actions when in orchestrator mode
+        if orchestrator_mode and os.environ.get("GITHUB_ACTIONS"):
+            print(f"Error: {name} requires 'agentbeats_id' for GitHub Actions in orchestrator mode")
             sys.exit(1)
         print(f"Using {name} image: {agent['image']}")
     elif has_id:
@@ -227,7 +234,10 @@ def parse_scenario(scenario_path: Path) -> dict[str, Any]:
     data = tomli.loads(toml_data)
 
     green = data.get("green_agent", {})
-    resolve_image(green, "green_agent")
+    # Get orchestrator_mode from green_agent config (default False for A2A server mode)
+    orchestrator_mode = green.get("orchestrator_mode", False)
+
+    resolve_image(green, "green_agent", orchestrator_mode=orchestrator_mode)
     # Detect port for green agent
     green["port"] = get_image_port(green["image"])
 
@@ -243,7 +253,7 @@ def parse_scenario(scenario_path: Path) -> dict[str, Any]:
 
     for participant in participants:
         name = participant.get("name", "unknown")
-        resolve_image(participant, f"participant '{name}'")
+        resolve_image(participant, f"participant '{name}'", orchestrator_mode=orchestrator_mode)
         # Detect port for participant
         participant["port"] = get_image_port(participant["image"])
 
