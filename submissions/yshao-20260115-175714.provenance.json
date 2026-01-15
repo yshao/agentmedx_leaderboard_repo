@@ -1,0 +1,17 @@
+{
+  "image_digests": {
+    "green-agent": "ghcr.io/yshao/medbench-judge@sha256:d69fa93af379f874f14a66d544a0a2f87816cf5886c766fe8d80549a5de39f22",
+    "medical_agent": "ghcr.io/yshao/medbench-medical@sha256:3784d81730efdeeee6730830dd8211523aaf9168d4fc17cd1dd541a5fffd054d",
+    "agentbeats-client": "ghcr.io/agentbeats/agentbeats-client@sha256:13dfe3ef4e583a80e7ce2fe3becd0ce3b879841368a7f4fa40b6ebbabeeb014e"
+  },
+  "timestamp": "2026-01-15T17:57:14Z",
+  "github_actions": {
+    "run_url": "https://github.com/yshao/agentmedx_leaderboard_repo/actions/runs/21041051801",
+    "run_logs_url": "https://api.github.com/repos/yshao/agentmedx_leaderboard_repo/actions/runs/21041051801/logs",
+    "ref": "refs/heads/trigger-evaluation-20260115-125445",
+    "sha": "b39c15de643ebd8a202af13162a4cb8d32e8db75",
+    "repository_url": "https://github.com/yshao/agentmedx_leaderboard_repo",
+    "workflow_ref": "yshao/agentmedx_leaderboard_repo/.github/workflows/run-scenario.yml@refs/heads/trigger-evaluation-20260115-125445",
+    "workflow_sha": "b39c15de643ebd8a202af13162a4cb8d32e8db75"
+  }
+}
