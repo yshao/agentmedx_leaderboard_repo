@@ -335,19 +335,34 @@ def generate_a2a_scenario(scenario: dict[str, Any]) -> str:
     green = scenario["green_agent"]
     participants = scenario.get("participants", [])
 
+    # Build role to agentbeats_id mapping for config
+    agentbeats_ids = {}
     participant_lines = []
     for p in participants:
         port = p.get("port", DEFAULT_PORT)
+        role = p['name']
         lines = [
             f"[[participants]]",
-            f"role = \"{p['name']}\"",
+            f"role = \"{role}\"",
             f"endpoint = \"http://{p['name']}:{port}\"",
         ]
         if "agentbeats_id" in p:
-            lines.append(f"agentbeats_id = \"{p['agentbeats_id']}\"")
+            agentbeats_id = p["agentbeats_id"]
+            lines.append(f"agentbeats_id = \"{agentbeats_id}\"")
+            # Map role name to agentbeats_id for config
+            agentbeats_ids[role] = agentbeats_id
         participant_lines.append("\n".join(lines) + "\n")
 
     config_section = scenario.get("config", {})
+
+    # Add agentbeats_id mapping to config
+    # Include green_agent agentbeats_id if available
+    if "agentbeats_id" in green:
+        agentbeats_ids["medical_judge"] = green["agentbeats_id"]
+
+    if agentbeats_ids:
+        config_section["agentbeats_ids"] = agentbeats_ids
+
     config_lines = [tomli_w.dumps({"config": config_section})]
 
     return A2A_SCENARIO_TEMPLATE.format(
