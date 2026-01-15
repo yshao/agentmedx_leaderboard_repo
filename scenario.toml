@@ -1,6 +1,7 @@
 [green_agent]
 image = "ghcr.io/yshao/medbench-judge:latest"
 orchestrator_mode = false
+# SSE fix applied - generate_compose.py now adds --card-url to command
 env = { GROQ_API_KEY = "${GROQ_API_KEY}", GOOGLE_API_KEY = "${GOOGLE_API_KEY}", DATA_PATH = "/app/data/medagentbench/test_data_v2.json", LOG_LEVEL = "INFO", CARD_URL = "http://green-agent:9008/", HOST = "0.0.0.0", AGENT_PORT = "9008" }
 
 [[participants]]
