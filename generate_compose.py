@@ -308,7 +308,8 @@ def generate_docker_compose(scenario: dict[str, Any]) -> str:
         ]
     else:
         # A2A server mode - use medbench_judge_a2a which supports SSE via Google ADK
-        command = ["python", "-m", "scenarios.medbench.medbench_judge_a2a", "--host", "0.0.0.0", "--port", str(green.get("port", DEFAULT_PORT)), "--data-path", "/app/data/medagentbench/test_data_v2.json"]
+        card_url = green.get("env", {}).get("CARD_URL", f"http://green-agent:{green.get('port', DEFAULT_PORT)}/")
+        command = ["python", "-m", "scenarios.medbench.medbench_judge_a2a", "--host", "0.0.0.0", "--port", str(green.get("port", DEFAULT_PORT)), "--card-url", card_url, "--data-path", "/app/data/medagentbench/test_data_v2.json"]
 
     all_services = ["green-agent"] + participant_names
 
