@@ -1,0 +1,29 @@
+{
+  "participants": {
+    "medical_agent": "019abad6-7640-7f00-9110-f5d405aa1194"
+  },
+  "results": [
+    {
+      "task_id": "diabetes_001",
+      "model": "agentx-medical",
+      "participant": "http://medical_agent:9010/",
+      "score": 30.0,
+      "max_score": 60,
+      "passed": false,
+      "pass_threshold": 42.0,
+      "time_seconds": 0.11978006362915039,
+      "medical_category": "diabetes",
+      "status": "completed",
+      "message": "Evaluation completed for task diabetes_001",
+      "criteria": {
+        "medication_appropriateness": 5.0,
+        "a1c_target": 5.0,
+        "comorbidity_management": 5.0,
+        "lifestyle_recommendations": 5.0,
+        "safety": 5.0,
+        "monitoring_plan": 5.0
+      },
+      "suggested_improvements": []
+    }
+  ]
+}
