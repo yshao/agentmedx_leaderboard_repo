@@ -207,13 +207,17 @@ def resolve_image(agent: dict, name: str, orchestrator_mode: bool = False) -> No
         agent: Agent configuration dict with 'image' or 'agentbeats_id'
         name: Name of the agent (for error messages)
         orchestrator_mode: If True, requires agentbeats_id for GitHub Actions
+
+    Note:
+        Both 'image' and 'agentbeats_id' can coexist. The 'image' field is used for
+        the Docker image, while 'agentbeats_id' is used for tracking in results.
     """
     has_image = "image" in agent
     has_id = "agentbeats_id" in agent
 
     if has_image and has_id:
-        print(f"Error: {name} has both 'image' and 'agentbeats_id' - use one or the other")
-        sys.exit(1)
+        # Both fields present: use the image directly, agentbeats_id is for tracking
+        print(f"Using {name} image: {agent['image']} (agentbeats_id: {agent['agentbeats_id']})")
     elif has_image:
         # Only require agentbeats_id for GitHub Actions when in orchestrator mode
         if orchestrator_mode and os.environ.get("GITHUB_ACTIONS"):
