@@ -2,8 +2,6 @@
 image = "ghcr.io/yshao/medbench-judge:latest"
 agentbeats_id = "019abad5-ee3e-7680-bd26-ea0415914743"
 orchestrator_mode = false
-# Last GitHub Actions run: 2025-01-15
-# SSE fix applied - generate_compose.py now adds --card-url to command
 env = { GROQ_API_KEY = "${GROQ_API_KEY}", GOOGLE_API_KEY = "${GOOGLE_API_KEY}", DATA_PATH = "/app/data/medagentbench/test_data_v2.json", LOG_LEVEL = "INFO", CARD_URL = "http://green-agent:9008/", HOST = "0.0.0.0", AGENT_PORT = "9008" }
 
 [[participants]]
@@ -15,4 +13,4 @@ env = { SPECIALTY = "diabetes", CARD_URL = "http://medical_agent:9010/" }
 [config]
 task_id = "diabetes_001"
 medical_category = "diabetes"
-dry_run = true
+dry_run = false
