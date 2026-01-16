@@ -1,0 +1,17 @@
+{
+  "image_digests": {
+    "green-agent": "ghcr.io/yshao/medbench-judge@sha256:d4d00767f74217108fd7ce79781c5e3f1621f291e9b6d8bac88e1035a686f58c",
+    "medical_agent": "ghcr.io/yshao/medbench-medical@sha256:219967cb51ddeb0fc134f7be28da6180f565bb8c9acdc292b2b936d2b4f4947e",
+    "agentbeats-client": "ghcr.io/agentbeats/agentbeats-client@sha256:13dfe3ef4e583a80e7ce2fe3becd0ce3b879841368a7f4fa40b6ebbabeeb014e"
+  },
+  "timestamp": "2026-01-16T02:33:13Z",
+  "github_actions": {
+    "run_url": "https://github.com/yshao/agentmedx_leaderboard_repo/actions/runs/21053559902",
+    "run_logs_url": "https://api.github.com/repos/yshao/agentmedx_leaderboard_repo/actions/runs/21053559902/logs",
+    "ref": "refs/heads/new_branch2",
+    "sha": "360c4834527c231f70f0946853408a0f863ad4ae",
+    "repository_url": "https://github.com/yshao/agentmedx_leaderboard_repo",
+    "workflow_ref": "yshao/agentmedx_leaderboard_repo/.github/workflows/run-scenario.yml@refs/heads/new_branch2",
+    "workflow_sha": "360c4834527c231f70f0946853408a0f863ad4ae"
+  }
+}
